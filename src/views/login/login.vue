@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <van-button type="primary" @click="showToast">主要按钮</van-button>
+    <p>test</p>
   </div>
 </template>
 
@@ -8,6 +9,7 @@
 export default {
   methods: {
     showToast () {
+      this.$router.push({ name: 'register' })
       this.$toast('test')
     }
   }
@@ -18,6 +20,5 @@ export default {
   .login {
     height: 100%;
     background-color: #eee;
-    width: 275px;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <button>23</button>
   </div>
 </template>
 
@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+  button {
+    background-color: #ccc;
+  }
 </style>

@@ -6,7 +6,7 @@ import App from './App.vue'
 // 引入flexible
 import 'amfe-flexible'
 
-// 引入全局样式
+import 'normalize.css/normalize.css'
 import './styles/index.less'
 
 // 引入vantUI
