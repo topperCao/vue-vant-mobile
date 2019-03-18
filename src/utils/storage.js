@@ -1,3 +1,6 @@
+/**
+ * token存取
+ */
 const TokenKey = 'token'
 
 export function getToken () {
@@ -12,6 +15,9 @@ export function removeToken () {
   return localStorage.removeItem(TokenKey)
 }
 
+/**
+ * userInfo存取
+ */
 const UserKey = 'userInfo'
 
 export function getUser () {
