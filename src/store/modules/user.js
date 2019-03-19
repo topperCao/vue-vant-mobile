@@ -3,12 +3,14 @@ import { getToken, getUser, setToken, setUser } from '@/utils/storage.js'
 export default {
   state: {
     userInfo: {},
-    token: ''
+    token: '',
+    isLogin: false
   },
 
   getters: {
     userInfo: state => JSON.stringify(state.userInfo) === '{}' ? getUser() : state.userInfo,
-    token: state => state.token || getToken()
+    token: state => state.token || getToken(),
+    isLogin: (state, getters) => JSON.stringify(getters.userInfo) !== '{}'
   },
 
   mutations: {

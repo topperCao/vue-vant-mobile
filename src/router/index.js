@@ -12,7 +12,11 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index
+      component: Index,
+      meta: {
+        requireAuth: true, // 需要认证
+        title: '首页'
+      }
     },
     {
       path: '/login',

@@ -60,12 +60,36 @@ export default {
   methods: {
     ...mapMutations(['setUserName', 'setToken']),
     // 登录
-    onLogin () {
+    async onLogin () {
       if (this.validatePhone()) return
       if (this.validatePwd()) return
       // ajax
-      this.ajaxLogin()
-      this.ajaxGetUserInfo()
+      const query = {
+        username: this.phone,
+        password: this.pwd
+      }
+      await userLogin(query).then(res => {
+        if (res.data) {
+          this.setToken(res.data.token)
+          this.$toast.success('登录成功')
+        }
+      })
+      await getUserInfo().then(res => {
+        if (res.data) {
+          this.setUserName(res.data.userDo)
+          // 登录跳转
+          let redirect = this.$route.query.redirect
+          if (redirect) {
+            delete this.$route.query.redirect
+            this.$router.replace({
+              name: redirect,
+              query: this.$route.query
+            })
+          } else {
+            this.$router.replace({ name: 'index' })
+          }
+        }
+      })
     },
     onClear () {
       this.phone = ''
@@ -81,31 +105,9 @@ export default {
     validatePwd () {
       if (this.pwd.length === 0) {
         this.$toast('请输入密码')
-        this.$refs.codeRef.focus()
+        this.$refs.pwdRef.focus()
         return true
       }
-    },
-    // 登录接口
-    async ajaxLogin () {
-      const query = {
-        username: this.phone,
-        password: this.pwd
-      }
-      await userLogin(query).then(res => {
-        if (res.data) {
-          this.setToken(res.data.token)
-          this.$toast.success('登录成功')
-          this.$router.push({ name: 'index' })
-        }
-      })
-    },
-    // 获取用户信息
-    async ajaxGetUserInfo () {
-      await getUserInfo().then(res => {
-        if (res.data) {
-          this.setUserName(res.data.userDo)
-        }
-      })
     }
   }
 }
