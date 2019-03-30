@@ -3,9 +3,12 @@ import { objToUrlParams } from '@/utils/tools.js'
 import store from '@/store/index.js'
 import { Dialog, Toast } from 'vant'
 
+// 开发环境接口前缀
+const prefixURL = process.env.NODE_ENV === 'development' ? '/api' : ''
+
 // 基础配置（只执行一次，不能用来做动态配置）
 const service = axios.create({
-  baseURL: '/api/shop',
+  baseURL: prefixURL + '/shop',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
@@ -55,7 +58,7 @@ service.interceptors.response.use(
         title: '提示',
         message: '登录失效，请重新登录'
       }).then(() => {
-        window.location.reload()
+        // window.location.reload()
       })
     } else {
     // isSelf为true，返回数据

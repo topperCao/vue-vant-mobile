@@ -6,7 +6,8 @@ module.exports = {
     // px自动转rem 默认按设计图尺寸375
     'postcss-pxtorem': {
       rootValue: 37.5,
-      propList: ['*']
+      propList: ['*', '!font*'],
+      minPixelValue: 2
     }
   }
 }
