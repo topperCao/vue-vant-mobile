@@ -1,5 +1,8 @@
 # my-shop
 
+技术栈：vue全家桶、vantUI、axios
+rem适配方案：postcss-pxtorem + amfe-flexible
+
 ## Project setup
 ```
 npm i
