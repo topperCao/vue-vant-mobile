@@ -38,7 +38,7 @@ export default {
       height: 40px;
       line-height: 40px;
       font-size: 18px;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #f9f9f9;
       text-align: center;
       background-color: #fff;
     }
