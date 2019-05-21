@@ -1,4 +1,4 @@
-# my-shop
+# vue-vant-mobile
 
 技术栈：vue全家桶、vantUI、axios
 rem适配方案：postcss-pxtorem + amfe-flexible
