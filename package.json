@@ -1,6 +1,6 @@
 {
-  "name": "my-shop",
-  "version": "1.0.1",
+  "name": "vue-vant-mobile",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
