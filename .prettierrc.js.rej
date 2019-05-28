@@ -1,0 +1,12 @@
+diff a/.prettierrc.js b/.prettierrc.js	(rejected hunks)
+@@ -2,5 +2,5 @@ module.exports = {
+-  "eslintIntegration": true,
+-  "stylelintIntegration": true,
+-  "tabWidth": 2,
+-  "singleQuote": true,
+-  "semi": false
++  'eslintIntegration': true,
++  'stylelintIntegration': true,
++  'tabWidth': 2,
++  'singleQuote': true,
++  'semi': false
