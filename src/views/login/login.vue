@@ -121,7 +121,7 @@ export default {
       margin: 0 auto;
       width: 70px;
       height: 70px;
-      background: url('https://img.51fanbei.com/h5/common/icon/app_main_icon.png') center no-repeat;
+      background: url('') center no-repeat;
       background-size: contain;
     }
   }
