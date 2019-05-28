@@ -8,16 +8,12 @@
  * @param {string} format 自定义时间格式，选填，默认为'{y}-{m}-{d} {h}:{i}:{s}'
  * @return {string} 默认格式 2018-09-01 10:55:00
  */
-export function formatDateTime (time, format) {
-  if (!time) {
-    return 'null'
-  }
+export function formatDate (time, format) {
+  time = time || new Date()
   format = format || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
-  if (typeof time === 'object') {
-    date = time
-  } else {
-    if (('' + time).length === 10) time = parseInt(time) * 1000
+  let date = time
+  if (typeof time !== 'object') {
+    if (('' + time).length === 10) time = +time * 1000
     date = new Date(time)
   }
   const formatObj = {
@@ -41,13 +37,28 @@ export function formatDateTime (time, format) {
 }
 
 /**
+ * 日期格式转时间戳
+ * @param {date} date date类型 2019-05-24 14:22:17
+ * @return {string} 1558678937000
+ */
+export function getTimestamp (date) {
+  if (!date) {
+    return new Date().getTime()
+  }
+  if (typeof date === 'string') {
+    date = date.replace(/-/g, '/')
+  }
+  return new Date(date).getTime()
+}
+
+/**
  * 日期时间文字化
  * 比较传入时间与当前本地时间，文字化显示日期时间
  * @param {date} time js的date类型或时间戳
  * @param {string} cFormat 自定义两天前的时间格式，选填
  * @return {string} 刚刚 n分钟前 n小时前 1天前
  */
-export function txtFormatDateTime (time, format) {
+export function txtFormatTime (time, format) {
   if (!time) {
     return 'null'
   }
@@ -65,7 +76,7 @@ export function txtFormatDateTime (time, format) {
   } else if (diff < 3600 * 24 * 2) {
     return '1天前'
   } else {
-    return formatDateTime(time, format)
+    return formatDate(time, format)
   }
 }
 
@@ -89,7 +100,7 @@ export function objToUrlParams (obj) {
  * @param {string} url 指定地址，默认取当前页地址
  * @return {string} { a: 1, b: 2, c: 3 }
  */
-export function getUrlObj (url) {
+export function getQueryObject (url) {
   url = url || window.location.href
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
@@ -108,7 +119,7 @@ export function getUrlObj (url) {
  * 创建唯一的字符串
  * @return {string} ojgdvbvaua40
  */
-export function createUniqueStr () {
+export function createUniqueString () {
   const timestamp = +new Date() + ''
   const randomNum = parseInt((1 + Math.random()) * 65536) + ''
   return (+(randomNum + timestamp)).toString(32)
@@ -132,7 +143,7 @@ export function downloadFile (url, name) {
 
 /**
  * 获取字符串的字节长度
- * @param {Sting} str 字符串
+ * @param {String} str 字符串
  * @returns {number} 字节长度
  */
 export function getByteLength (str) {
@@ -151,7 +162,7 @@ export function getByteLength (str) {
  * @param {number} num 数字
  * @return {number} 10,000
  */
-export function formatToThousands (num) {
+export function toThousands (num) {
   return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
 }
 
@@ -161,7 +172,7 @@ export function formatToThousands (num) {
  * @param {number} digits 保留几位小数
  * @return {string} 2MB
  */
-export function formatStorage (num, digits) {
+export function toStorage (num, digits) {
   if (num < 1024) {
     return num + 'B'
   }
@@ -185,44 +196,46 @@ export function formatStorage (num, digits) {
 /**
  * el-date-picker快捷选项配置
  */
-export const pickerOptions = [
-  {
-    text: '今天',
-    onClick (picker) {
-      const end = new Date()
-      const start = new Date(new Date().toDateString())
-      end.setTime(start.getTime())
-      picker.$emit('pick', [start, end])
+export function pickerOptions () {
+  return [
+    {
+      text: '今天',
+      onClick (picker) {
+        const end = new Date()
+        const start = new Date(new Date().toDateString())
+        end.setTime(start.getTime())
+        picker.$emit('pick', [start, end])
+      }
+    }, {
+      text: '最近一周',
+      onClick (picker) {
+        const end = new Date(new Date().toDateString())
+        const start = new Date()
+        start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
+        picker.$emit('pick', [start, end])
+      }
+    }, {
+      text: '最近一个月',
+      onClick (picker) {
+        const end = new Date(new Date().toDateString())
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+        picker.$emit('pick', [start, end])
+      }
+    }, {
+      text: '最近三个月',
+      onClick (picker) {
+        const end = new Date(new Date().toDateString())
+        const start = new Date()
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+        picker.$emit('pick', [start, end])
+      }
     }
-  }, {
-    text: '最近一周',
-    onClick (picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近一个月',
-    onClick (picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近三个月',
-    onClick (picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      picker.$emit('pick', [start, end])
-    }
-  }
-]
+  ]
+}
 
 /**
- * 对象合并 (浅度更新，深度合并)
+ * 对象合并 (属性为简单数据类型时更新，复杂数据类型时合并)
  * @param {object} target 目标对象
  * @param {object} source 源对象
  * @return {object} 合并后的对象 (改变引用地址)
@@ -243,4 +256,65 @@ export function objectMerge (target, source) {
     }
   })
   return JSON.parse(JSON.stringify(target))
+}
+
+/**
+ * 函数防抖
+ * @param {Function} func
+ * @param {number} wait
+ * @param {boolean} immediate
+ * @return {*}
+ */
+export function debounce (func, wait, immediate) {
+  let timeout, args, context, timestamp, result
+
+  const later = function () {
+    // 据上一次触发时间间隔
+    const last = +new Date() - timestamp
+
+    // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
+    if (last < wait && last > 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
+  }
+
+  return function (...args) {
+    context = this
+    timestamp = +new Date()
+    const callNow = immediate && !timeout
+    // 如果延时不存在，重新设定延时
+    if (!timeout) timeout = setTimeout(later, wait)
+    if (callNow) {
+      result = func.apply(context, args)
+      context = args = null
+    }
+
+    return result
+  }
+}
+
+/**
+ * 深克隆
+ * @param {object|array} 源数据
+ * @return {object|array}
+ */
+export function deepClone (source) {
+  return JSON.parse(JSON.stringify(source))
+}
+
+/**
+ * 获取数据类型
+ * @param {any} data 数据
+ * @return {string} 'array'
+ */
+export function getDataType (data) {
+  const str = Object.prototype.toString.call(data)
+  return str.match(/\s(\w*)\]/)[1].toLowerCase()
 }
