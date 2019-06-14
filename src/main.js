@@ -10,13 +10,9 @@ import '@/styles/index.less'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
-import FastClick from 'fastclick'
-
-import '@/utils/beforeEach.js'
+import '@/utils/routerEach.js'
 
 Vue.use(Vant)
-
-FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 

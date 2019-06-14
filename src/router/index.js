@@ -13,7 +13,7 @@ export default new Router({
       name: 'index',
       component: Index,
       meta: {
-        requireAuth: true, // 需要认证
+        requireAuth: true, // 需要登录访问
         title: '首页'
       }
     },
